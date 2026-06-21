@@ -2,9 +2,9 @@
 
 ## Overview
 
-This project demonstrates an automated incident response workflow that integrates **LimaCharlie EDR**, **Tines SOAR**, **Slack**, and **Email Notifications** to detect, investigate, and contain malicious activity.
+This project demonstrates an automated incident response workflow that integrates **Microsoft Azure**, **LimaCharlie EDR**, **Tines SOAR**, **Slack**, and **Email Notifications** to detect, investigate, and contain malicious activity.
 
-A custom LimaCharlie Detection & Response (D&R) rule was created to identify the execution of **LaZagne**, a credential dumping and password recovery tool commonly associated with the **Credential Access** tactic in the MITRE ATT&CK framework.
+A Windows Server virtual machine was deployed in Microsoft Azure and onboarded to LimaCharlie EDR for monitoring. A custom LimaCharlie Detection & Response (D&R) rule was developed to identify the execution of **LaZagne**, a credential dumping and password recovery tool commonly associated with the **Credential Access** tactic in the MITRE ATT&CK framework.
 
 When a detection occurs, LimaCharlie forwards the alert to Tines, which automatically notifies analysts through Slack and Email, presents an analyst approval prompt, and optionally isolates the affected endpoint through the LimaCharlie API.
 
@@ -16,22 +16,40 @@ When a detection occurs, LimaCharlie forwards the alert to Tines, which automati
 
 ---
 
+## Environment
+
+The lab environment was deployed in Microsoft Azure to simulate a real-world cloud-hosted endpoint monitoring and incident response scenario.
+
+### Infrastructure
+
+* Microsoft Azure Virtual Machine
+* Windows Server Endpoint
+* LimaCharlie EDR Sensor
+* Tines SOAR Platform
+* Slack Workspace
+* Email Notification Service
+
+The Azure-hosted endpoint was monitored by LimaCharlie and used to simulate credential access activity through LaZagne execution.
+
+---
+
 ## Technologies Used
 
+* Microsoft Azure
+* Windows Server
 * LimaCharlie EDR
 * Tines SOAR
 * Slack
 * Email Notifications
-* Windows Server
-* Detection & Response Rules
 * HTTP API Integrations
+* Detection & Response Rules
 * Endpoint Isolation
 
 ---
 
 ## Project Workflow
 
-1. LaZagne is executed on the endpoint.
+1. LaZagne is executed on the Azure-hosted Windows Server endpoint.
 2. LimaCharlie detects the activity using a custom D&R rule.
 3. A detection alert is generated.
 4. The alert is sent to Tines through a webhook.
@@ -40,7 +58,7 @@ When a detection occurs, LimaCharlie forwards the alert to Tines, which automati
    * Slack Notification
    * Email Notification
 6. Tines presents an analyst approval prompt.
-7. Analyst chooses whether to isolate the endpoint.
+7. The analyst chooses whether to isolate the endpoint.
 8. If approved:
 
    * LimaCharlie isolates the endpoint.
@@ -54,7 +72,7 @@ When a detection occurs, LimaCharlie forwards the alert to Tines, which automati
 
 ## Detection Rule
 
-The following custom D&R rule was created to detect LaZagne execution through process path, command line activity, and file hash matching.
+The following custom D&R rule was created to detect LaZagne execution through process path, command-line activity, and file hash matching.
 
 ![Detection Rule](images/detect-rule.png)
 
@@ -86,7 +104,7 @@ Before containment actions are executed, analysts are prompted to approve or den
 
 ## Email Notification
 
-Automated email notifications provide analysts with detailed alert information including hostname, username, file path, command line, and detection link.
+Automated email notifications provide analysts with detailed alert information including hostname, username, file path, command line, sensor ID, and detection link.
 
 ![Email Alert](images/email.png)
 
@@ -120,8 +138,9 @@ The LimaCharlie response action performs network isolation to contain the potent
 
 ### Attack Simulation
 
-* Deployed LimaCharlie sensor on a Windows Server endpoint.
-* Executed LaZagne password recovery tool.
+* Deployed a Windows Server virtual machine in Microsoft Azure.
+* Installed and configured the LimaCharlie EDR sensor.
+* Executed the LaZagne password recovery tool.
 * Custom D&R rule detected the activity.
 * Alert was forwarded to Tines via webhook.
 * Slack notification was generated.
@@ -142,6 +161,8 @@ The workflow successfully demonstrated:
 * Automated Containment
 * Containment Verification
 
+During testing, analyst-approved endpoint isolation successfully isolated the Azure-hosted Windows Server from the network, immediately terminating active Remote Desktop (RDP) connectivity and validating successful containment.
+
 ---
 
 ## MITRE ATT&CK Mapping
@@ -161,9 +182,23 @@ The workflow successfully demonstrated:
 * Threat Detection
 * Security Automation
 * API Integrations
+* Cloud Security Monitoring
+* Microsoft Azure Administration
 * Slack Automation
 * Endpoint Containment
 * Analyst Approval Workflows
+
+---
+
+## Project Outcomes
+
+* Built an Azure-hosted incident response lab.
+* Developed custom LimaCharlie detection logic for credential-access activity.
+* Integrated LimaCharlie with Tines using webhooks and API calls.
+* Automated analyst notifications through Slack and Email.
+* Implemented analyst-driven containment decisions.
+* Executed successful endpoint isolation and containment verification.
+* Simulated a real-world SOC incident response workflow from detection to remediation.
 
 ---
 
@@ -171,4 +206,4 @@ The workflow successfully demonstrated:
 
 **Mohamed Fatine**
 
-Cybersecurity Enthusiast focused on SOC Operations, Detection Engineering, Incident Response, SOAR Automation, and Purple Teaming.
+Cybersecurity Enthusiast focused on SOC Operations, Detection Engineering, Incident Response, SOAR Automation, Cloud Security, and Purple Teaming.
